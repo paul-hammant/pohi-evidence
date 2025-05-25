@@ -9,6 +9,7 @@ digraph RealityTree {
   horizon_unreliable [label="Bugs/errors undermined Horizon's\nreliability for transaction processing.", style=filled, fillcolor=lightblue];
   legacy_horizon_not_robust [label="Legacy Horizon was not\nremotely robust.", style=filled, fillcolor=lightblue];
   remote_access_fujitsu [label="Fujitsu had remote access to alter\nbranch data without SPM knowledge/consent.", style=filled, fillcolor=lightblue];
+  audit_trail_fallible [label="Horizon database audit trail\nwas not beyond falsification.", style=filled, fillcolor=lightblue];
 
   pol_knew_issues [label="POL/Fujitsu were aware of\nHorizon system issues & defects.", style=filled, fillcolor=lightgoldenrodyellow];
   pol_failed_disclosure_prosecutions [label="POL failed to disclose known Horizon\nissues to defendants during prosecutions.", style=filled, fillcolor=lightgoldenrodyellow];
@@ -16,7 +17,7 @@ digraph RealityTree {
 
   pol_prosecutes_spms [label="POL initiated private prosecutions\nagainst SPMs based on Horizon data.", style=filled, fillcolor=lightcoral];
   reliance_on_horizon_data [label="Prosecutions relied heavily on the\npresumed accuracy of Horizon data.", style=filled, fillcolor=lightcoral];
-  fujitsu_witness_infallibility [label="Fujitsu witness(es) asserted\nHorizon's infallibility in court.", style=filled, fillcolor=lightcoral];
+  fujitsu_witness_infallibility [label="Gareth Jenkins (Fujitsu witness) asserted\nHorizon's infallibility, testimony reused across cases.", style=filled, fillcolor=lightcoral];
   courts_accepted_horizon_evidence [label="Courts often accepted Horizon\nevidence as reliable.", style=filled, fillcolor=lightcoral];
   unjust_prosecutions [label="More successful prosecutions by POL\nthan would be just.", style=filled, fillcolor=lightcoral];
 
@@ -63,6 +64,11 @@ digraph RealityTree {
   pol_knew_issues -> remote_access_fujitsu;
   // Relationship for the newly uncommented node - assuming it's a cause for defense challenges
   defense_did_not_challenge_horizon -> pol_failed_disclosure_spms;
+
+  // New relationships for audit_trail_fallible
+  horizon_unreliable -> audit_trail_fallible;
+  reliance_on_horizon_data -> audit_trail_fallible;
+  pol_failed_disclosure_prosecutions -> audit_trail_fallible;
 
   subgraph cluster_legend {
     label = "Acronym Key";
