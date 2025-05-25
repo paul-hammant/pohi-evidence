@@ -1,0 +1,95 @@
+digraph RealityTree {
+  graph [charset="UTF-8"];
+  node [shape=box, style="filled,rounded", fillcolor=lightgrey];
+  edge [arrowhead=vee];
+
+  // Node Definitions
+  horizon_bugs [label="Horizon system had bugs, errors, and defects."];
+  horizon_shortfalls [label="Bugs/errors in Horizon caused apparent shortfalls in branch accounts."];
+  horizon_unreliable [label="Bugs/errors undermined Horizon's reliability for transaction processing."];
+  legacy_horizon_not_robust [label="Legacy Horizon was not remotely robust."]; // Included in subgraph but not in explicit relationships
+  remote_access_fujitsu [label="Fujitsu had remote access to alter branch data without SPM knowledge/consent."];
+  pol_knew_issues [label="POL/Fujitsu were aware of Horizon system issues & defects."];
+  pol_failed_disclosure_prosecutions [label="POL failed to disclose known Horizon issues to defendants during prosecutions."];
+  // pol_failed_disclosure_spms [label="POL failed to disclose Horizon data/access for SPMs to verify."]; // This node was in subgraph example but not main list, omitting for now
+  pol_prosecutes_spms [label="POL initiated private prosecutions against SPMs based on Horizon data."];
+  reliance_on_horizon_data [label="Prosecutions relied heavily on the presumed accuracy of Horizon data."];
+  fujitsu_witness_infallibility [label="Fujitsu witness(es) asserted Horizon's infallibility in court."];
+  courts_accepted_horizon_evidence [label="Courts often accepted Horizon evidence as reliable."];
+  unjust_prosecutions [label="More successful prosecutions by POL than would be just."];
+  ndas_suppressed_info [label="Use of NDAs by POL suppressed information about Horizon problems."];
+  failed_prosecutions_buried_ndas [label="Early prosecution failures potentially buried by NDAs."];
+  defense_did_not_challenge_horizon [label="Defence teams often did not effectively challenge Horizon's reliability."];
+  dba_experts_not_used [label="Database/IT experts were not (or inadequately) utilized by defence teams."];
+  limited_data_access_spms [label="SPMs had limited access to transaction data to identify causes of shortfalls."];
+  spms_accused_of_shortfalls [label="SPMs accused of financial shortfalls shown by Horizon."];
+  spms_contractual_liability [label="SPMs held contractually liable for Horizon-generated shortfalls."];
+  wrongful_convictions [label="Wrongful convictions of SPMs occurred."];
+
+  // Subgraphs for Grouping
+  subgraph cluster_horizon_issues {
+    label = "Horizon System Flaws";
+    style=filled;
+    color=lightyellow;
+    horizon_bugs; horizon_shortfalls; horizon_unreliable; legacy_horizon_not_robust; remote_access_fujitsu;
+  }
+
+  subgraph cluster_knowledge_disclosure {
+    label = "Knowledge and Disclosure";
+    style=filled;
+    color=lightblue;
+    pol_knew_issues; pol_failed_disclosure_prosecutions; ndas_suppressed_info; // Moved ndas_suppressed_info here as it relates to disclosure
+  }
+
+  subgraph cluster_legal_process {
+    label = "Legal Process & Prosecutions";
+    style=filled;
+    color=lightpink;
+    pol_prosecutes_spms; reliance_on_horizon_data; fujitsu_witness_infallibility; courts_accepted_horizon_evidence; unjust_prosecutions; failed_prosecutions_buried_ndas;
+  }
+
+   subgraph cluster_defense_issues {
+    label = "Defense Challenges";
+    style=filled;
+    color=lightgreen;
+    defense_did_not_challenge_horizon; dba_experts_not_used; limited_data_access_spms; // limited_data_access_spms also impacts defense
+  }
+
+  subgraph cluster_consequences {
+    label = "Consequences for SPMs";
+    style=filled;
+    color=lightcoral;
+    spms_accused_of_shortfalls; spms_contractual_liability; wrongful_convictions;
+  }
+
+  // Relationships (Effect -> Cause)
+  horizon_shortfalls -> horizon_bugs;
+  horizon_shortfalls -> remote_access_fujitsu;
+  horizon_unreliable -> horizon_bugs;
+  pol_prosecutes_spms -> horizon_shortfalls;
+  pol_prosecutes_spms -> spms_contractual_liability;
+  spms_accused_of_shortfalls -> horizon_shortfalls;
+  reliance_on_horizon_data -> pol_knew_issues;
+  reliance_on_horizon_data -> fujitsu_witness_infallibility;
+  reliance_on_horizon_data -> courts_accepted_horizon_evidence; // This was implied by the structure but making explicit
+  courts_accepted_horizon_evidence -> fujitsu_witness_infallibility;
+  courts_accepted_horizon_evidence -> defense_did_not_challenge_horizon;
+  pol_failed_disclosure_prosecutions -> pol_knew_issues;
+  defense_did_not_challenge_horizon -> pol_failed_disclosure_prosecutions;
+  defense_did_not_challenge_horizon -> dba_experts_not_used;
+  dba_experts_not_used -> pol_failed_disclosure_prosecutions;
+  fujitsu_witness_infallibility -> pol_knew_issues;
+  unjust_prosecutions -> reliance_on_horizon_data;
+  unjust_prosecutions -> pol_failed_disclosure_prosecutions;
+  unjust_prosecutions -> failed_prosecutions_buried_ndas;
+  failed_prosecutions_buried_ndas -> ndas_suppressed_info;
+  ndas_suppressed_info -> pol_knew_issues;
+  wrongful_convictions -> unjust_prosecutions;
+  wrongful_convictions -> courts_accepted_horizon_evidence;
+  spms_accused_of_shortfalls -> limited_data_access_spms;
+
+  // Additional relationships based on context (optional but good for completeness)
+  legacy_horizon_not_robust -> horizon_bugs; // Implied: if it wasn't robust, it had bugs
+  pol_knew_issues -> horizon_bugs; // POL knew because of the bugs
+  pol_knew_issues -> remote_access_fujitsu; // POL knew about remote access
+}
